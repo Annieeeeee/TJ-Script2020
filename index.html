@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width,initial-scale=1,user-scalable=no,maximum-scale=1" name="viewport"/>
+    <title>做不完了呀</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="hammer.js"></script>
+</head>
+
+<body>
+    <div class="todoList">
+        <header>
+            <span class="todo-title">
+                肝会儿
+            </span>
+            <span class="todo-counter">
+                <!--还需x个肝-->
+            </span>
+        </header>
+
+        <div class="todo-main">
+            <!-- Show List -->
+            <div id="wrapper">
+                <div id="scroll-view">
+                    <ul class="todo-list"></ul>
+                    <!--示例⬇
+                        <li class="todo-item">
+                            <div class="todo-card">
+                                <button class="todo-item-btn">
+                                    <div class="todo-item-btn-content">O</div>
+                                </button>
+                                <span class="todo-item-txt-done">
+                                    写作业
+                                </span>
+                                <span class="todo-item-lv">
+                                    爆肝
+                                </span>
+                                <button class="destory">
+                                    x
+                                </button>
+                            </div>
+                        </li>
+                    -->
+                </div>
+            </div>
+            <!-- Add Todo Item -->
+            <div class="todo-add">
+                <button class="todo-add-btn">
+                    <div class="todo-add-btn-content">+</div>
+                </button>
+                <input class="todo-new" type="text" placeholder="肝点什么呢?" autofocus />
+                <select class="todo-level">
+                    <option class="todo-low" value ="low">慢肝</option>
+                    <option class="todo-medium" value ="medium">快肝</option>
+                    <option class="todo-high" value="high">爆肝</option>
+                </select>
+            </div>
+        </div>
+
+        <footer>
+            <input class="toggle-all" type="checkbox" />
+            <span class="toggle-text">一键肝掉</span>
+            <ul class="filters">
+                <li><a class="selected" style="cursor:pointer;">全部</a></li>
+                <li><a class="" style="cursor:pointer;">待肝</a></li>
+                <li><a class="" style="cursor:pointer;">已肝</a></li>
+            </ul>
+            <button class="clear-completed">往事拜拜👋</button>
+        </footer>
+    </div>
+
+    <script src="model.js"></script>
+    <script src="provider-localStorage.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
