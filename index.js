@@ -12,15 +12,8 @@ var LVL_HIGH = 'high';
 var filterList=["All","Active","Completed"];
 
 window.onload = function(){
-    update;
-    init;
-    $(".todo-level").onchange=changeSelect;
-    //$(".todo-add-btn").onclick=addTodo;
-
-}
-
-function init(){
     model.init(function(){
+        update();
         var data = model.data;
         var lvl = LVL_LOW; //default set
         var todo=$(".todo-new");
@@ -74,10 +67,13 @@ function init(){
         //say goodbye to done
         $(".clear-completed").addEventListener("touchstart",function(event){
             event.preventDefault();
-            for(var i=0;i<data.items.length;i++){
+            for(var i=0;i<data.items.length&&data.items.length!==0;){
+                (
+                    function(i){
                 if(data.items[i].completed===true){
                     data.items.splice(i, 1);
                 }
+            })(i);
             }
             update();
         },false);
@@ -85,10 +81,16 @@ function init(){
         //toggle all
         $(".toggle-all").addEventListener("touchstart",function(event){
             event.preventDefault();
-            this.checked = !this.checked;
-            var completed = this.checked;
+            console.log("toggle 咋回事？");
+            this.checked = (!this.checked);
+           
+            var completed =  this.checked;
+            console.log("checked:",completed);
             for(var i=0;i<data.items.length;i++){
+                
+                console.log("toggle combom:",i);
                 data.items[i].completed=completed;
+
             }
             update();
         },false);
@@ -113,9 +115,16 @@ function init(){
                 )(i);
             }
         }
-        filters;
+        filters();
         
     })
+    $(".todo-level").onchange=changeSelect;
+    //$(".todo-add-btn").onclick=addTodo;
+
+}
+
+function init(){
+    
 }
 
 //add todo item
@@ -165,6 +174,9 @@ function update(){
     
     //create todo items
     for(var i=0;i<data.items.length;i++){
+        (
+            function(i){
+                console.log("iiiiibuwan:",i);
         tdItem=data.items[i];
         if(tdItem.completed===false){
             activeCounter+=1;
@@ -200,6 +212,7 @@ function update(){
 
                 //lv span todo-item-lv
                 var lv=document.createElement("span");
+		lv.classList.add("todo-item-lv");
                 switch(true){
                     case tdItem.level===LVL_LOW:
                         //console.log("switch lvl:",lvl);
@@ -221,9 +234,9 @@ function update(){
                 }
                 // delete button
                 var delbtn = document.createElement("button");
-                delbtn.classList.add("destroy");
+                delbtn.classList.add("destory");
                 delbtn.innerHTML = "×";
-                delbtn.style.visibility="hidden";
+                //delbtn.style.visibility="hidden";
 
                 //append
                 todoList.appendChild(item);
@@ -236,7 +249,8 @@ function update(){
                 //done or undo
                 btn.addEventListener("touchstart",function(event){
                     event.preventDefault();
-                    tdItem.completed=!tdItem.completed;
+                    console.log("btn事件：",i);
+                    data.items[i].completed=!data.items[i].completed;
                     update();
                 },false);
 
@@ -246,28 +260,9 @@ function update(){
                     data.items.splice(i, 1);
                     update();
                 },false);
-
-                // create a manager to manage the element
-                var manager = new Hammer.Manager(txt, {
-                    touchAction: 'pan-y',
-                    recognizers: [
-                        [Hammer.Pan, { direction: Hammer.DIRECTION_VERTICAL }],
-                    ]
-                });
-                var swipe = new Hammer.Swipe();
-                manager.add(swipe);
-                manager.on('swipe',function(e){
-                    if(e.offsetDirection===2){
-                        console.log("swipe left");
-                        delbtn.style.visibility="visible";
-                    }else if(e.offsetDirection===1){
-                        delbtn.style.visibility="hidden";
-                    }
-                })
-
-
     
             }
+        })(i);
         }
 
     $(".todo-new").value = data.msg;
