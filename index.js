@@ -87,10 +87,11 @@ window.onload = function(){
             var completed =  this.checked;
             console.log("checked:",completed);
             for(var i=0;i<data.items.length;i++){
-                
+                (
+                    function(i){
                 console.log("toggle combom:",i);
                 data.items[i].completed=completed;
-
+            })(i);
             }
             update();
         },false);
@@ -123,15 +124,6 @@ window.onload = function(){
 
 }
 
-function init(){
-    
-}
-
-//add todo item
-function addTodo(){
-    console.log("add todo");
-    
-}
 
 //change the color of todo level selector
 function changeSelect(){
@@ -175,97 +167,112 @@ function update(){
     //create todo items
     for(var i=0;i<data.items.length;i++){
         (
-            function(i){
-                console.log("iiiiibuwan:",i);
-        tdItem=data.items[i];
-        if(tdItem.completed===false){
-            activeCounter+=1;
-        }
-        if(data.filter===filterList[0]|| 
-            (tdItem.completed === true) === (data.filter === "Completed")){
-                //li
-                var item = document.createElement("li");
-                item.classList.add("todo-item");
-
-                //card
-                var card = document.createElement("div");
-                card.classList.add("todo-card");
-
-                //btn
-                var btn = document.createElement("button");
-                btn.classList.add("todo-item-btn");
-                if(tdItem.completed){
-                    var btntxt=document.createElement("div");
-                    btntxt.classList.add("todo-item-btn-content");
-                    btntxt.innerHTML="O";
-                    btn.appendChild(btntxt);
-                }
-
-                //txt span todo-item-txt-done
-                var txt = document.createElement("span");
-                if(tdItem.completed){
-                    txt.classList.add("todo-item-txt-done");
-                }else{
-                    txt.classList.add("todo-item-txt");
-                }
-                txt.innerHTML=tdItem.msg;
-
-                //lv span todo-item-lv
-                var lv=document.createElement("span");
-		lv.classList.add("todo-item-lv");
-                switch(true){
-                    case tdItem.level===LVL_LOW:
-                        //console.log("switch lvl:",lvl);
-                        lv.innerHTML="慢肝";
-                        lv.style.backgroundColor='rgba(165, 241, 172,0.5)';
-                        break;
-                    case tdItem.level===LVL_MEDIUM:
-                        //console.log("switch lvl:",lvl);
-                        lv.innerHTML="快肝";
-                        lv.style.backgroundColor='rgb(255,249,185)';
-                        break;
-                    case tdItem.level===LVL_HIGH:
-                        //console.log("switch lvl:",lvl);
-                        lv.innerHTML="爆肝";
-                        lv.style.backgroundColor='rgba(227,122,128,0.5)';
-                        break;
-                    default:
-                        break;
-                }
-                // delete button
-                var delbtn = document.createElement("button");
-                delbtn.classList.add("destory");
-                delbtn.innerHTML = "×";
-                //delbtn.style.visibility="hidden";
-
-                //append
-                todoList.appendChild(item);
-                item.appendChild(card);
-                card.appendChild(btn);
-                card.appendChild(txt);
-                card.appendChild(lv);
-                card.appendChild(delbtn);
-
-                //done or undo
-                btn.addEventListener("touchstart",function(event){
-                    event.preventDefault();
-                    console.log("btn事件：",i);
-                    data.items[i].completed=!data.items[i].completed;
-                    update();
-                },false);
-
-                //delete
-                delbtn.addEventListener("touchstart",function(event){
-                    event.preventDefault();
-                    data.items.splice(i, 1);
-                    update();
-                },false);
-    
+        function(i){
+            console.log("iiiiibuwan:",i);
+            tdItem=data.items[i];
+            if(tdItem.completed===false){
+                activeCounter+=1;
             }
-        })(i);
-        }
+            if(data.filter===filterList[0]|| 
+                (tdItem.completed === true) === (data.filter === "Completed")){
+                    //li
+                    var item = document.createElement("li");
+                    item.classList.add("todo-item");
 
-    $(".todo-new").value = data.msg;
+                    //card
+                    var card = document.createElement("div");
+                    card.classList.add("todo-card");
+
+                    //btn
+                    var btn = document.createElement("button");
+                    btn.classList.add("todo-item-btn");
+                    if(tdItem.completed){
+                        var btntxt=document.createElement("div");
+                        btntxt.classList.add("todo-item-btn-content");
+                        btntxt.innerHTML="O";
+                        btn.appendChild(btntxt);
+                    }
+
+                    //txt span todo-item-txt-done
+                    var txt = document.createElement("span");
+                    if(tdItem.completed){
+                        txt.classList.add("todo-item-txt-done");
+                    }else{
+                        txt.classList.add("todo-item-txt");
+                    }
+                    txt.innerHTML=tdItem.msg;
+
+                    //lv span todo-item-lv
+                    var lv=document.createElement("span");
+                    lv.classList.add("todo-item-lv");
+                    switch(true){
+                        case tdItem.level===LVL_LOW:
+                            //console.log("switch lvl:",lvl);
+                            lv.innerHTML="慢肝";
+                            lv.style.backgroundColor='rgba(165, 241, 172,0.5)';
+                            break;
+                        case tdItem.level===LVL_MEDIUM:
+                            //console.log("switch lvl:",lvl);
+                            lv.innerHTML="快肝";
+                            lv.style.backgroundColor='rgb(255,249,185)';
+                            break;
+                        case tdItem.level===LVL_HIGH:
+                            //console.log("switch lvl:",lvl);
+                            lv.innerHTML="爆肝";
+                            lv.style.backgroundColor='rgba(227,122,128,0.5)';
+                            break;
+                        default:
+                            break;
+                    }
+                    // delete button
+                    var delbtn = document.createElement("button");
+                    delbtn.classList.add("destory");
+                    delbtn.innerHTML = "×";
+                    //delbtn.style.visibility="hidden";
+
+                    //append
+                    todoList.appendChild(item);
+                    item.appendChild(card);
+                    card.appendChild(btn);
+                    card.appendChild(txt);
+                    card.appendChild(lv);
+                    card.appendChild(delbtn);
+
+                    //done or undo
+                    btn.addEventListener("touchstart",function(event){
+                        event.preventDefault();
+                        console.log("btn事件：",i);
+                        data.items[i].completed=!data.items[i].completed;
+                        update();
+                    },false);
+
+                    //delete
+                    delbtn.addEventListener("touchstart",function(event){
+                        event.preventDefault();
+                        data.items.splice(i, 1);
+                        update();
+                    },false);
+
+                    //edit item msg
+                    txt.addEventListener("touchstart",function(event){
+                        event.preventDefault();
+                        tempMsg=data.items[i].msg;
+                        tempTag=data.items[i].level;
+                        data.items.splice(i, 1);
+                        $(".todo-new").value = tempMsg;
+                        setLevel(tempTag);
+                        update();
+                    },false);
+
+                    
+
+
+        
+                }
+        })(i);
+    }
+
+    //$(".todo-new").value = data.msg;
 
     $(".toggle-all").style.visibility = 
         data.items.length > 0 ? "visible" : "hidden";
@@ -284,5 +291,32 @@ function update(){
         $("#scroll-view").style.height = window.screen.height * 0.75 + "px";
     } else {
         $("#scroll-view").style.height = "";
+    }
+}
+
+function setLevel(lvl){
+    var s1=$(".todo-level");
+    s1.options[0].selected = true;
+    s1.style.backgroundColor='rgba(165, 241, 172,0.5)';
+    switch(true){
+        case lvl===LVL_LOW:
+            //console.log("switch lvl:",lvl);
+            
+            s1.options[0].selected = true;
+            s1.style.backgroundColor='rgba(165, 241, 172,0.5)';
+            break;
+        case lvl===LVL_MEDIUM:
+            //console.log("switch lvl:",lvl);
+
+            s1.options[1].selected = true;
+            s1.style.backgroundColor='rgb(255,249,185)';
+            break;
+        case lvl===LVL_HIGH:
+            //console.log("switch lvl:",lvl);
+            s1.options[2].selected = true;
+            s1.style.backgroundColor='rgba(227,122,128,0.5)';
+            break;
+        default:
+            break;
     }
 }
